@@ -106,14 +106,23 @@ class EventScheduler:
     
     def get_upcoming_events(self, hours=1):
         """Get events due within specified hours"""
-        now = datetime.now()
-        upcoming = []
-        for event in self.events:
-            start_time = parser.parse(event['start_time'])
-            time_diff = start_time - now
-            if timedelta(0) <= time_diff <= timedelta(hours=hours):
-                upcoming.append(event)
-        return upcoming
+        try:
+            now = datetime.now()
+            upcoming = []
+            for event in self.events:
+                try:
+                    start_time = parser.parse(event['start_time'])
+                    time_diff = start_time - now
+                    # Events that start within the next 'hours' hours and haven't started yet
+                    if timedelta(0) <= time_diff <= timedelta(hours=hours):
+                        upcoming.append(event)
+                except Exception as e:
+                    print(f"❌ Error parsing event time for {event.get('title', 'Unknown')}: {e}")
+                    continue
+            return upcoming
+        except Exception as e:
+            print(f"❌ Error getting upcoming events: {e}")
+            return []
     
     def send_email_notification(self, event):
         """Send email notification for event reminder"""
@@ -149,22 +158,42 @@ class EventScheduler:
     
     def check_reminders(self):
         """Check for upcoming events and send reminders"""
-        upcoming = self.get_upcoming_events(1)  # Next hour
-        for event in upcoming:
-            print(f"REMINDER: {event['title']} starts at {event['start_time']}")
-            # Uncomment the line below to enable email notifications
-            # self.send_email_notification(event)
+        try:
+            upcoming = self.get_upcoming_events(1)  # Next hour
+            if upcoming:
+                print(f"\n🔔 REMINDER CHECK - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+                print(f"📅 Found {len(upcoming)} upcoming event(s) in the next hour:")
+                for event in upcoming:
+                    start_time = parser.parse(event['start_time'])
+                    time_until = start_time - datetime.now()
+                    minutes_until = int(time_until.total_seconds() / 60)
+                    print(f"   ⏰ {event['title']} - Starts in {minutes_until} minutes")
+                    print(f"      📝 {event['description']}")
+                    print(f"      🕐 {event['start_time']}")
+                    # Uncomment the line below to enable email notifications
+                    # self.send_email_notification(event)
+                print("🔔 End of reminders\n")
+            else:
+                print(f"✅ No upcoming events in the next hour - {datetime.now().strftime('%H:%M:%S')}")
+        except Exception as e:
+            print(f"❌ Error checking reminders: {e}")
     
     def start_reminder_thread(self):
         """Start background thread for checking reminders"""
         def reminder_worker():
+            print("🔔 Reminder thread started - checking every minute")
             schedule.every().minute.do(self.check_reminders)
             while True:
-                schedule.run_pending()
-                time.sleep(60)
+                try:
+                    schedule.run_pending()
+                    time.sleep(60)
+                except Exception as e:
+                    print(f"❌ Error in reminder thread: {e}")
+                    time.sleep(60)  # Continue trying
         
         thread = threading.Thread(target=reminder_worker, daemon=True)
         thread.start()
+        print("🔔 Reminder system initialized successfully")
 
 # Initialize the scheduler
 scheduler = EventScheduler()
@@ -174,6 +203,11 @@ scheduler = EventScheduler()
 def index():
     """Serve the main web interface"""
     return render_template('index.html')
+
+@app.route('/favicon.ico')
+def favicon():
+    """Serve favicon to prevent 404 errors"""
+    return '', 204  # No content response
 
 # API Routes
 @app.route('/api/events', methods=['GET'])
@@ -298,6 +332,20 @@ def get_upcoming_events():
 def health_check():
     """Health check endpoint"""
     return jsonify({'success': True, 'status': 'healthy', 'message': 'Event Scheduler API is running'})
+
+@app.route('/api/test-reminders', methods=['GET'])
+def test_reminders():
+    """Test the reminder system manually"""
+    try:
+        print("\n🧪 MANUAL REMINDER TEST TRIGGERED")
+        scheduler.check_reminders()
+        return jsonify({
+            'success': True, 
+            'message': 'Reminder test completed - check console for output',
+            'timestamp': datetime.now().isoformat()
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 if __name__ == '__main__':
     print("🚀 Starting Event Scheduler System...")
