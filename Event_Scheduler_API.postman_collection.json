@@ -1,0 +1,415 @@
+{
+	"info": {
+		"_postman_id": "event-scheduler-api",
+		"name": "Event Scheduler API",
+		"description": "Complete API collection for Event Scheduler System with all endpoints for testing CRUD operations, search, and upcoming events.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"health"
+					]
+				},
+				"description": "Check if the API is running and healthy"
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Events",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/events",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"events"
+					]
+				},
+				"description": "Retrieve all events sorted by start time"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Event",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Team Meeting\",\n  \"description\": \"Weekly team sync meeting to discuss project progress\",\n  \"start_time\": \"2024-01-15T10:00:00\",\n  \"end_time\": \"2024-01-15T11:00:00\",\n  \"recurring\": \"weekly\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/events",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"events"
+					]
+				},
+				"description": "Create a new event with title, description, start time, end time, and optional recurring pattern"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Daily Standup",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Daily Standup\",\n  \"description\": \"Daily team standup meeting to discuss yesterday's progress and today's tasks\",\n  \"start_time\": \"2024-01-15T09:00:00\",\n  \"end_time\": \"2024-01-15T09:15:00\",\n  \"recurring\": \"daily\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/events",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"events"
+					]
+				},
+				"description": "Create a daily recurring standup meeting"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Monthly Review",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Monthly Review\",\n  \"description\": \"Monthly performance review and goal setting session\",\n  \"start_time\": \"2024-01-30T14:00:00\",\n  \"end_time\": \"2024-01-30T16:00:00\",\n  \"recurring\": \"monthly\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/events",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"events"
+					]
+				},
+				"description": "Create a monthly recurring review meeting"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Event by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/events/{{event_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"events",
+						"{{event_id}}"
+					]
+				},
+				"description": "Retrieve a specific event by its ID"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Event",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Updated Team Meeting\",\n  \"description\": \"Updated description for the team meeting\",\n  \"start_time\": \"2024-01-15T11:00:00\",\n  \"end_time\": \"2024-01-15T12:00:00\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/events/{{event_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"events",
+						"{{event_id}}"
+					]
+				},
+				"description": "Update an existing event's details"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Event Title Only",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"New Meeting Title\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/events/{{event_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"events",
+						"{{event_id}}"
+					]
+				},
+				"description": "Update only the title of an event"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Event",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/events/{{event_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"events",
+						"{{event_id}}"
+					]
+				},
+				"description": "Delete an event by its ID"
+			},
+			"response": []
+		},
+		{
+			"name": "Search Events",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/events/search?q=meeting",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"events",
+						"search"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "meeting"
+						}
+					]
+				},
+				"description": "Search for events by title or description"
+			},
+			"response": []
+		},
+		{
+			"name": "Search Events - Team",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/events/search?q=team",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"events",
+						"search"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "team"
+						}
+					]
+				},
+				"description": "Search for events containing 'team' in title or description"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Upcoming Events - 1 Hour",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/events/upcoming?hours=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"events",
+						"upcoming"
+					],
+					"query": [
+						{
+							"key": "hours",
+							"value": "1"
+						}
+					]
+				},
+				"description": "Get events due within the next hour"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Upcoming Events - 2 Hours",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/events/upcoming?hours=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"events",
+						"upcoming"
+					],
+					"query": [
+						{
+							"key": "hours",
+							"value": "2"
+						}
+					]
+				},
+				"description": "Get events due within the next 2 hours"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Upcoming Events - 24 Hours",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/events/upcoming?hours=24",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"events",
+						"upcoming"
+					],
+					"query": [
+						{
+							"key": "hours",
+							"value": "24"
+						}
+					]
+				},
+				"description": "Get events due within the next 24 hours"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "event_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+} 
