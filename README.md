@@ -375,7 +375,7 @@ To enable email notifications:
 }
 ```
 
-## 🎯 Usage Examples
+##  Usage Examples
 
 ### Example 1: Create a Daily Standup Meeting
 ```bash
@@ -432,7 +432,7 @@ curl "http://localhost:5000/api/events/upcoming?hours=2"
    - Ensure SMTP settings are correct
    - Verify app password for Gmail
 
-## 📝 Project Structure
+##  Project Structure
 
 ```
 event-scheduler-system/
@@ -444,22 +444,3 @@ event-scheduler-system/
 └── .gitignore         # Git ignore file
 ```
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests for new features
-5. Submit a pull request
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## 👨‍💻 Author
-
-Created with ❤️ for the Event Scheduler Challenge
-
----
-
-**Note:** This project was designed to be completed within 24 hours while maintaining high code quality, comprehensive features, and excellent user experience. The minimalist design ensures easy maintenance and extensibility for future enhancements. 
