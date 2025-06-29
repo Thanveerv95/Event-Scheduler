@@ -152,6 +152,106 @@ GET /events/search?q=meeting
 GET /events/upcoming?hours=2
 ```
 
+## 💾 Data Persistence
+
+### How It Works
+- **Automatic Saving**: All events are automatically saved to `events.json` file
+- **Data Persistence**: Events persist between application restarts
+- **JSON Storage**: Human-readable JSON format for easy debugging
+- **Error Handling**: Graceful handling of file read/write errors
+
+### Implementation Details
+```python
+# Events are saved automatically after each operation
+def save_events(self):
+    """Save events to JSON file"""
+    with open(EVENTS_FILE, 'w') as f:
+        json.dump(self.events, f, indent=2, default=str)
+
+# Events are loaded on application startup
+def load_events(self):
+    """Load events from JSON file"""
+    if os.path.exists(EVENTS_FILE):
+        with open(EVENTS_FILE, 'r') as f:
+            self.events = json.load(f)
+```
+
+## 📱 Postman Collection
+
+### Complete API Testing Suite
+The project includes a comprehensive Postman collection with all endpoints:
+
+#### Available Requests:
+1. **Health Check** - Verify API is running
+2. **Get All Events** - Retrieve all events
+3. **Create Event** - Add new event with full details
+4. **Create Daily Standup** - Example recurring daily event
+5. **Create Monthly Review** - Example recurring monthly event
+6. **Get Event by ID** - Retrieve specific event
+7. **Update Event** - Modify event details
+8. **Update Event Title Only** - Partial update example
+9. **Delete Event** - Remove event from system
+10. **Search Events** - Find events by keyword
+11. **Search Events - Team** - Specific search example
+12. **Get Upcoming Events - 1 Hour** - Events due within 1 hour
+13. **Get Upcoming Events - 2 Hours** - Events due within 2 hours
+14. **Get Upcoming Events - 24 Hours** - Events due within 24 hours
+
+### How to Use Postman Collection:
+1. **Import Collection**: Open Postman → Import → Select `Event_Scheduler_API.postman_collection.json`
+2. **Start Server**: Run `python app.py`
+3. **Test Endpoints**: Click on any request in the collection and send
+4. **Variables**: Use `{{event_id}}` variable for dynamic event IDs
+
+### Example Postman Workflow:
+1. **Health Check** → Verify API is running
+2. **Create Event** → Add a new event
+3. **Get All Events** → See your event in the list
+4. **Get Event by ID** → Use the returned event ID
+5. **Update Event** → Modify the event
+6. **Search Events** → Find events by keyword
+7. **Delete Event** → Remove the event
+
+## 📧 Email Notifications
+
+### Current Status
+- **Disabled by Default**: Email notifications are commented out for security
+- **Code Ready**: Full email functionality is implemented
+- **Easy to Enable**: Simple configuration change
+
+### How to Enable Email Notifications:
+
+1. **Update Email Configuration** in `app.py`:
+```python
+EMAIL_CONFIG = {
+    'smtp_server': 'smtp.gmail.com',
+    'smtp_port': 587,
+    'sender_email': 'your-email@gmail.com',
+    'sender_password': 'your-app-password'
+}
+```
+
+2. **Enable Email Sending** in `app.py`:
+```python
+def check_reminders(self):
+    upcoming = self.get_upcoming_events(1)
+    for event in upcoming:
+        print(f"REMINDER: {event['title']} starts at {event['start_time']}")
+        # Uncomment the line below to enable email notifications
+        self.send_email_notification(event)  # ← Uncomment this line
+```
+
+3. **Gmail Setup** (if using Gmail):
+   - Enable 2-Factor Authentication
+   - Generate App Password
+   - Use App Password instead of regular password
+
+### Email Features:
+- **Automatic Sending**: Emails sent for events due within 1 hour
+- **Rich Content**: Includes event title, description, start/end times
+- **Error Handling**: Graceful handling of email failures
+- **Customizable**: Easy to modify email template and timing
+
 ## 🧪 Running Tests
 
 ```bash
