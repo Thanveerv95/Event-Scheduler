@@ -48,7 +48,7 @@ A modern, beautiful, and minimalist Event Scheduler System built with Python Fla
    - The server will start at `http://localhost:5000`
    - API endpoints are available at `http://localhost:5000/api/`
 
-## 📚 API Documentation
+##  API Documentation
 
 ### Base URL
 ```
