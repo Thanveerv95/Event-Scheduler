@@ -19,7 +19,7 @@ A modern, beautiful, and minimalist Event Scheduler System built with Python Fla
 - ✅ **Search Functionality**: Search events by title or description
 - ✅ **Modern API**: RESTful API with proper error handling
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 - Python 3.7 or higher
@@ -152,7 +152,7 @@ GET /events/search?q=meeting
 GET /events/upcoming?hours=2
 ```
 
-## 💾 Data Persistence
+##  Data Persistence
 
 ### How It Works
 - **Automatic Saving**: All events are automatically saved to `events.json` file
@@ -176,7 +176,7 @@ def load_events(self):
             self.events = json.load(f)
 ```
 
-## 📱 Postman Collection
+##  Postman Collection
 
 ### Complete API Testing Suite
 The project includes a comprehensive Postman collection with all endpoints:
@@ -252,7 +252,7 @@ def check_reminders(self):
 - **Error Handling**: Graceful handling of email failures
 - **Customizable**: Easy to modify email template and timing
 
-## 🧪 Running Tests
+##  Running Tests
 
 ```bash
 # Run all tests
@@ -284,7 +284,7 @@ To enable email notifications:
    - Generate an App Password
    - Use the App Password instead of your regular password
 
-## 📱 Postman Collection
+##  Postman Collection
 
 ### Import the following collection into Postman:
 
@@ -411,7 +411,7 @@ curl "http://localhost:5000/api/events/upcoming?hours=2"
 - The file is automatically created on first run
 - Data persists between application restarts
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 ### Common Issues
 
